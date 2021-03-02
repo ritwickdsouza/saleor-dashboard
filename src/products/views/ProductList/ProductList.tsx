@@ -53,7 +53,7 @@ import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandl
 import createFilterHandlers from "@saleor/utils/handlers/filterHandlers";
 import { getSortUrlVariables } from "@saleor/utils/sort";
 import { useWarehouseList } from "@saleor/warehouses/queries";
-import React from "react";
+import React, { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import ProductListPage from "../../components/ProductListPage";
@@ -192,6 +192,21 @@ export const ProductList: React.FC<ProductListProps> = ({ params }) => {
     params
   });
 
+  useEffect(() => {
+    const sortWithQuery = ProductListUrlSortField.rank;
+    const sortWithoutQuery =
+      params.sort === ProductListUrlSortField.rank
+        ? ProductListUrlSortField.name
+        : params.sort;
+    navigate(
+      productListUrl({
+        ...params,
+        asc: params.query ? undefined : params.asc,
+        sort: params.query ? sortWithQuery : sortWithoutQuery
+      })
+    );
+  }, [params.query]);
+
   const handleTabChange = (tab: number) => {
     reset();
     navigate(
@@ -230,6 +245,7 @@ export const ProductList: React.FC<ProductListProps> = ({ params }) => {
   const queryVariables = React.useMemo<ProductListVariables>(
     () => ({
       ...paginationState,
+      channel: channelSlug,
       filter,
       sort
     }),

@@ -104,6 +104,7 @@ const productListQuery = gql`
     $before: String
     $filter: ProductFilterInput
     $sort: ProductOrder
+    $channel: String
   ) {
     products(
       before: $before
@@ -112,6 +113,7 @@ const productListQuery = gql`
       last: $last
       filter: $filter
       sortBy: $sort
+      channel: $channel
     ) {
       edges {
         node {

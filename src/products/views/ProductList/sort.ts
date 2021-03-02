@@ -26,15 +26,19 @@ export function getSortQueryVariables(
   params: ProductListUrlQueryParams,
   channel: string
 ): ProductOrder {
+  const direction = getOrderDirection(params.asc);
   if (params.sort === ProductListUrlSortField.attribute) {
     return {
       attributeId: params.attributeId,
-      direction: getOrderDirection(params.asc)
+      direction
     };
   }
-  return {
-    channel,
-    direction: getOrderDirection(params.asc),
-    field: getSortQueryField(params.sort)
-  };
+  const field = getSortQueryField(params.sort);
+  if (field) {
+    return {
+      channel,
+      direction,
+      field
+    };
+  }
 }

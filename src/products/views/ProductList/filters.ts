@@ -203,7 +203,6 @@ export function getFilterVariables(
         }))
       : null,
     categories: params.categories !== undefined ? params.categories : null,
-    channel: channel || null,
     collections: params.collections !== undefined ? params.collections : null,
     price: channel
       ? getGteLteVariables({
